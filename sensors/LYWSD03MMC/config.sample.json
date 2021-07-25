@@ -1,0 +1,7 @@
+{
+    "url": "http://192.168.0.1:8086",
+    "token": "hogehoge",
+    "org": "my-home",
+    "bucket": "my-home-bucket"
+}
+    

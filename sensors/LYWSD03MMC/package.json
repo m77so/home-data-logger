@@ -1,0 +1,11 @@
+{
+    "name": "ble-sensor-lywsd03mmc",
+    "version": "1.0.0",
+    "description": "",
+    "main": "influxdb.js",
+    "license": "CC0-1.0",
+    "dependencies": {
+        "@abandonware/noble": "^1.9.2-14",
+        "@influxdata/influxdb-client": "^1.15.0"
+    }
+  }

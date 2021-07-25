@@ -1,0 +1,46 @@
+version: "3.3"
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    user: "1000" 
+    ports:
+      - "3000:3000"
+    volumes:
+      - $HOME/docker/grafana/data:/var/lib/grafana 
+      - $HOME/docker/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - $HOME/docker/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    user: "1000"
+    volumes:
+      - $HOME/docker/prometheus:/prometheus
+    command: "--config.file=/prometheus/prometheus.yaml --query.lookback-delta='16s'"
+    ports:
+      - 9090:9090
+    restart: always
+  influxdb:
+    image: influxdb:2.0
+    ports:
+      - 8086:8086
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=$(INFLUXDB_SECURITY_USERNAME)
+      - DOCKER_INFLUXDB_INIT_PASSWORD=$(INFLUXDB_SECURITY_PASSWORD)
+      - DOCKER_INFLUXDB_INIT_ORG=my-home
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-home-bucket
+      - DOCKER_INFLUXDB_INIT_RETENTION=4w
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=$(INFLUXDB_SECURITY_ADMIN_TOKEN)
+    volumes:
+      - $HOME/docker/influxdb/data:/var/lib/influxdb2
+      - $HOME/docker/influxdb/config:/etc/influxdb2
+    container_name: influxdb
+    restart: always
+

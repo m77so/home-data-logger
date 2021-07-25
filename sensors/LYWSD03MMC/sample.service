@@ -1,0 +1,10 @@
+[Unit]
+Description=send temp using prometheus
+
+[Service]
+ExecStart=/usr/bin/nodejs /opt/home-data-logger/sensors/LYWSD03MMC/influxdb.js
+Restart=always
+RuntimeMaxSec=1800
+
+[Install]
+WantedBy=multi-user.target
