@@ -1,0 +1,24 @@
+version: "3.3"
+
+services:
+  influxdb:
+    image: influxdb:2.0
+    ports:
+      - 8086:8086
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_INIT_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_INIT_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=my-home
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-home-bucket
+      - DOCKER_INFLUXDB_INIT_RETENTION=4w
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_ADMIN_TOKEN}
+    volumes:
+      - ../../influxdb/data:/var/lib/influxdb2
+      - ../../influxdb/config:/etc/influxdb2
+    container_name: influxdb
+    restart: always
+
+
+
+
